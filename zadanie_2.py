@@ -21,8 +21,7 @@ def check_win():
 def check_move(numO, numX):
     move = ''
     for item in win_line:
-        count_o = 0 
-        count_x = 0
+        count_o, count_x = 0, 0 
         for i in range(3):
             if cell[item[i]] == 'O':
                 count_o += 1
@@ -37,7 +36,7 @@ def check_move(numO, numX):
 def comp():        
     move = ''
     move = check_move(2,0)
-    
+
     if move == '':
         move = check_move(0,2)        
  
@@ -45,13 +44,12 @@ def comp():
         move = check_move(1,0)  
 
     if move == '':
-        move = check_move(1,1)         
-    
-    if move == '':
-        if cell[4] != 'X' and cell[4] != 'O':
-            move = 5
-        if cell[0] != 'X' and cell[0] != 'O':
-            move = 1           
+        move = check_move(1,1) 
+        
+    if cell[4] != 'X' and cell[4] != 'O':
+        move = 5
+    if cell[0] != 'X' and cell[0] != 'O':
+        move = 1           
     return move
 
 game_over = False
@@ -69,16 +67,18 @@ while not game_over:
     motion(move,xo) 
          
     if count >4:
-        win = check_win()
-        if win:
+        if check_win():
             create_cell(cell)
-            print(f'Победили {win}!!!')
+            print(f'Победили {check_win()}!!!')
             game_over = True
         
-    if count ==9:
-        create_cell(cell)
-        print('Ничья!!!')
-        game_over = True
+    if count >7:
+        if not check_win():
+            create_cell(cell)
+            print('Ничья!!!')
+            game_over = True
+print('Игра окончена.')
+
         
  
 
