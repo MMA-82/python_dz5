@@ -52,16 +52,16 @@ def comp():
         move = 1           
     return move
 
-game_over = False
+gameover = False
 count = 0 
-while not game_over:
+while not gameover:
     create_cell(cell)
     if count %2 != 1:
         xo = 'X'
         move = int(input('Ваш ход, выбирайте ячейку: '))
     else:
-        print('Ход компьтера:')
         xo = 'O'
+        print(f'Ход компьтера: {comp()}')
         move = comp()
     count+= 1
     motion(move,xo) 
@@ -70,13 +70,14 @@ while not game_over:
         if check_win():
             create_cell(cell)
             print(f'Победили {check_win()}!!!')
-            game_over = True
-        
+            gameover = True
+            #break
+      
     if count >7:
         if not check_win():
             create_cell(cell)
-            print('Ничья!!!')
-            game_over = True
+            print('Нет больше выигрышных ходов, ничья!!!')
+            gameover = True
 print('Игра окончена.')
 
         
