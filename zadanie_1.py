@@ -4,40 +4,75 @@
 # Все конфеты оппонента достаются сделавшему последний ход
 
 from random import randint as R
-table = R(50, 101)
-print(f'На столе {table} конфет')
-rang = input('Бросаем жребий, чей первый ход да/нет? ')
-sum_hum, sum_comp = 0, 0
-count = 0
-if 'да' in rang:
-    lot = R(0, 1)
-    if lot == 0:
-        print(f'Выпало {lot}, Вы ходите первым')
-        while table >= 28:
-            if count %2 != 1:
-                human = int(input('Сколько возьмете конфет? '))
-                table -= human
-                sum_hum += human
+table = R(50, 100)
+sum_h, sum_c = 0, 0
+print('Бросаем жребий')
+lot = R(0,1)
+if lot == 0:
+    print(f'Выпало {lot}, Ваш ход!!!')
+    count = 0
+    while table > 0:
+        if count %2 != 1:
+            human = int(input(f'На столе {table} конфет, сколько возьмете? '))
+            if human >0 and human <= table and human <= 28:
+                table-= human
+                sum_h+= human
             else:
-                comp = R(1, 29)
+                print('Некорректный ввод. Максимум можете взять 28 конфет за раз!')
+                human = int(input(f'На столе {table} конфет, сколько возьмете? '))
+                if human >0 and human <= table and human <= 28:
+                    table-= human
+                    sum_h+= human
+        else:
+            if table > 28:
+                comp = R(1, 28)
                 print(f'Комп берет {comp} конфет')
-                table -= comp
-                sum_comp += comp
-            count += 1
-            print(f'На столе осталось {table} конфет')
+                table-= comp
+                sum_c+= comp
+            else:
+                comp = table
+                print(f'Комп забирает все оставшиеся {table} конфет')
+                table-= comp
+                sum_c+= comp
+        count+= 1
+    if count %2 != 0:
+        sum_h+= sum_c
+        print(f'Вы победили и забрали все {sum_h} конфет')
     else:
-        print(f'Выпало {lot}, первым ходит комп')
-        while table >= 28:
-            if count %2 != 1:
-                comp = R(1, 29)
-                print(f'Комп берет {comp} конфет')
-                table -= comp
-                sum_comp += comp
+        sum_c+= sum_h
+        print(f'Комп выиграл и забрал все {sum_c} конфет')
+else:
+    print(f'Выпало {lot}, ход компа!!!')
+    count = 0
+    while table > 0:
+        if count %2 != 1:
+            if table > 28:
+                comp = R(1, 28)
+                print(f'На столе {table} конфет. Комп берет {comp} конфет')
+                table-= comp
+                sum_c+= comp
             else:
-                human = int(input('Сколько возьмете конфет? '))
-                table -= human
-                sum_hum += human
-            count += 1
-            print(f'На столе осталось {table} конфет')
-
+                comp = table
+                print(f'Комп забирает оставшиеся {table} конфет')
+                table-= comp
+                sum_c+= comp
+        else:
+            human = int(input(f'На столе {table} конфет, сколько возьмете? '))
+            if human >0 and human <= table and human <= 28:
+                table-= human
+                sum_h+= human
+            else:
+                print('Некорректный ввод. Максимум можете взять 28 конфет за раз!')
+                human = int(input(f'На столе {table} конфет, сколько возьмете? '))
+                if human >0 and human <= table and human <= 28:
+                    table-= human
+                    sum_h+= human
+        count+= 1
+    if count %2 != 0:
+        sum_c+= sum_h
+        print(f'Комп выиграл и забрал все {sum_c} конфет')
+    else:
+        sum_h+= sum_c
+        print(f'Вы победили и забрали все {sum_h} конфет')
+print('Игра окончена, приходите еще!!!')
                 
