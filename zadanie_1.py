@@ -6,6 +6,16 @@
 from random import randint as R
 table = R(50, 100)
 sum_h, sum_c = 0, 0
+
+def comp_move(table):
+    if table > 28:
+        comp = R(1, 28)
+        print(f'На столе {table} конфет. Комп берет {comp} конфет')
+    else:
+        comp = table
+        print(f'Комп забирает все оставшиеся {table} конфет')
+    return comp
+
 print('Бросаем жребий')
 lot = R(0,1)
 if lot == 0:
@@ -24,16 +34,9 @@ if lot == 0:
                     table-= human
                     sum_h+= human
         else:
-            if table > 28:
-                comp = R(1, 28)
-                print(f'Комп берет {comp} конфет')
-                table-= comp
-                sum_c+= comp
-            else:
-                comp = table
-                print(f'Комп забирает все оставшиеся {table} конфет')
-                table-= comp
-                sum_c+= comp
+            comp = comp_move(table)
+            table-= comp
+            sum_c+= comp
         count+= 1
     if count %2 != 0:
         sum_h+= sum_c
@@ -46,16 +49,9 @@ else:
     count = 0
     while table > 0:
         if count %2 != 1:
-            if table > 28:
-                comp = R(1, 28)
-                print(f'На столе {table} конфет. Комп берет {comp} конфет')
-                table-= comp
-                sum_c+= comp
-            else:
-                comp = table
-                print(f'Комп забирает оставшиеся {table} конфет')
-                table-= comp
-                sum_c+= comp
+            comp = comp_move(table)
+            table-= comp
+            sum_c+= comp
         else:
             human = int(input(f'На столе {table} конфет, сколько возьмете? '))
             if human >0 and human <= table and human <= 28:
